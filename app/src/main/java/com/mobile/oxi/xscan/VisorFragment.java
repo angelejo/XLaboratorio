@@ -94,8 +94,8 @@ public class VisorFragment extends Fragment {
         //   layoutVisor.addView(fondo);
 
 
-        ImageView visor = (ImageView) rootView.findViewById(R.id.tipVisor);
-        visor.setImageResource(imgVisor);
+        //ImageView visor = (ImageView) rootView.findViewById(R.id.tipVisor);
+        //visor.setImageResource(imgVisor);
 
 
         return rootView;
