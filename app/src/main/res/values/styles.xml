@@ -1,0 +1,17 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/col_light_green</item>
+        <item name="colorPrimaryDark">@color/col_dark_green</item>
+        <item name="colorAccent">@color/col_accent</item>
+        <item name="android:navigationBarColor">@color/col_light_green</item>
+
+    </style>
+
+    <style name="Toolbar" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/col_light_green</item>
+        <item name="android:textColorPrimary">@color/col_primary</item>
+    </style>
+
+</resources>

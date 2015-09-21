@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/mobile/oxi/xscan/MainActivity.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/mobile/oxi/xscan/VisorFragment.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/mobile/oxi/xscan/VisorFragmentAdapter.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/mobile/oxi/xscan/VisorZOPageTransformer.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/visor.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/visor_et_barras.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/visor_et_cuadrada.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/visor_et_full.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/visor_et_ropa.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/visor_et_small.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_visor.xml" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml" charset="windows-1252" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

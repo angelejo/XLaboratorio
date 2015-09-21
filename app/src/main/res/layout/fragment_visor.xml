@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/content"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical" >
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/drawrect"
+        >
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/content2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:elevation="6dp"
+        >
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/tipVisor"
+            android:layout_gravity="center_horizontal"
+            android:elevation="6dp"
+            android:contentDescription="Visor"/>
+
+        <TextView
+            android:id="@+id/tvIndex"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="@color/accent_material_light"
+            android:textIsSelectable="false"
+            android:textSize="75sp"
+            />
+
+    </LinearLayout>
+
+
+</LinearLayout>
