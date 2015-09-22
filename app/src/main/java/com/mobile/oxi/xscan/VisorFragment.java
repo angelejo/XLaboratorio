@@ -11,8 +11,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
 public class VisorFragment extends Fragment {
@@ -26,24 +26,22 @@ public class VisorFragment extends Fragment {
      * Key to insert the index page into the mapping of a Bundle.
      */
     private static final String INDEX = "index";
-
-    private static final String IMGVISOR = "imagen";
-
+    private static final String POSX = "posX";
+    private static final String POSY = "posY";
+    private static final String ANCHO = "ancho";
+    private static final String ALTO = "alto";
 
     private int index;
-    private int imgVisor;
+    private float posX;
+    private float posY;
+    private float ancho;
+    private float alto;
+
     public ShapeDrawable ShapeVisor;
     private Context context;
 
 
-    /**
-     * Instances a new fragment with a background color and an index page.
-     *
-     * @param index    index page
-     * @param imgVisor vector de imagen
-     * @return a new page
-     */
-    public static VisorFragment newInstance( int index, int imgVisor ) {
+    public static VisorFragment newInstance(int index, float posX, float posY, float ancho, float alto) {
 
         // Instantiate a new fragment
         VisorFragment fragment = new VisorFragment();
@@ -51,7 +49,11 @@ public class VisorFragment extends Fragment {
         // Save the parameters
         Bundle bundle = new Bundle();
         bundle.putInt(INDEX, index);
-        bundle.putInt(IMGVISOR, imgVisor);
+        bundle.putFloat(POSX, posX);
+        bundle.putFloat(POSY, posY);
+        bundle.putFloat(ANCHO, ancho);
+        bundle.putFloat(ALTO, alto);
+
 
         fragment.setArguments(bundle);
         fragment.setRetainInstance(true);
@@ -67,11 +69,14 @@ public class VisorFragment extends Fragment {
         // Load parameters when the initial creation of the fragment is done
         this.index = (getArguments() != null) ? getArguments().getInt(INDEX)
                 : -1;
-        this.imgVisor = (getArguments() != null) ? getArguments().getInt(IMGVISOR)
+        this.posX = (getArguments() != null) ? getArguments().getFloat(POSX)
                 : -1;
-
-
-
+        this.posY = (getArguments() != null) ? getArguments().getFloat(POSY)
+                : -1;
+        this.ancho = (getArguments() != null) ? getArguments().getFloat(ANCHO)
+                : -1;
+        this.alto = (getArguments() != null) ? getArguments().getFloat(ALTO)
+                : -1;
 
     }
 
@@ -83,19 +88,21 @@ public class VisorFragment extends Fragment {
                 R.layout.fragment_visor, container, false);
 
         // Show the current page index in the view
-        //TextView tvIndex = (TextView) rootView.findViewById(R.id.tvIndex);
-        //tvIndex.setText(String.valueOf(this.index));
+        TextView tvIndex = (TextView) rootView.findViewById(R.id.tvIndex);
+        tvIndex.setText(String.valueOf(this.index));
+        //ImageView visor = (ImageView) rootView.findViewById(R.id.tipVisor);
+        //visor.setImageResource(imgVisor);
+
 
         // Change the background color
         RelativeLayout relativeLayout = (RelativeLayout) rootView.findViewById(R.id.drawrect);
-        relativeLayout.addView(new DrawView(getActivity()));
+        DrawView DV = new DrawView(getActivity());
+        DV.rectVisor(this.posX,this.posY,this.ancho,this.alto);
 
-        //    DrawView fondo = new DrawView(this);
-        //   layoutVisor.addView(fondo);
+        relativeLayout.addView(DV);
 
 
-        //ImageView visor = (ImageView) rootView.findViewById(R.id.tipVisor);
-        //visor.setImageResource(imgVisor);
+
 
 
         return rootView;
