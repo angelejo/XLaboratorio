@@ -233,23 +233,6 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
 
 
         inicializarTessTwo();
-/// Iniciar el viewpager de vistas
-
-
-
-     //   CapturaImagenFragment layoutVisor = ( CapturaImagenFragment)
-     //           getSupportFragmentManager().findFragmentById(R.id.fragment).getChildFragmentManager().findFragmentById(R.id.content);
-
-
-
-      //  layoutVisor = (LinearLayout) findViewById(R.id.content2);
-
-    //    RelativeLayout relativeLayout = (RelativeLayout)
-
-    //    DrawView fondo = new DrawView(this);
-     //   layoutVisor.addView(fondo);
-
-
     }
 
     protected void inicializarAzureMobileServices()  {

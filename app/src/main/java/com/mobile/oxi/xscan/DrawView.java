@@ -26,15 +26,9 @@ public class DrawView extends View {
     public void onDraw(Canvas canvas) {
         paint.setColor(Color.WHITE);
         paint.setStrokeWidth(1);
-        //paint.setARGB(255,255,0,0);
         paint.setStyle(Paint.Style.STROKE);
-
         canvas.drawRect(valx, valy, ancho, alto, paint);
-      //  paint.setStrokeWidth(0);
-       // paint.setColor(Color.CYAN);
-      //  canvas.drawRect(33, 60, 77, 77, paint );
-       // paint.setColor(Color.YELLOW);
-       // canvas.drawRect(33, 33, 77, 60, paint );
+
 
     }
 
