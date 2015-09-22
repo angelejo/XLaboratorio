@@ -169,9 +169,13 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
         iv_photo = (FloatingActionButton) findViewById(R.id.iv_photo);
 
 
+        inicializarViewPagerVistas();
+
         iv_template1 = (ImageView) findViewById(R.id.iv_template1);
         iv_template2 = (ImageView) findViewById(R.id.iv_template2);
         iv_template3 = (ImageView) findViewById(R.id.iv_template3);
+
+
 
         iv_photo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -179,6 +183,8 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
                 try {
                     Toast.makeText(CapturaImagen.this, "Capturando imagen", Toast.LENGTH_SHORT).show();
                     extraerImagenesROI();
+
+
                 } catch (Exception e) {
                     Toast.makeText(CapturaImagen.this, "Error "+e.getMessage() + ", "+e.getStackTrace().toString(), Toast.LENGTH_SHORT).show();
                 }
@@ -191,6 +197,8 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
                     int x = (mRgba.cols()- 150)/2;
                     int y = (mRgba.rows()-350)/2;
                     Template = new Rect(x,y,(150),(350));
+                    pager.setCurrentItem(3);
+
                 } catch (Exception e) {
 
                 }
@@ -203,6 +211,7 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
                     int x = (mRgba.cols() - 150) / 2;
                     int y = (mRgba.rows() - 350) / 2;
                     Template = new Rect(x, y, (150), (350));
+                    pager.setCurrentItem(2);
                 } catch (Exception e) {
 
                 }
@@ -215,6 +224,7 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
                     int x = (mRgba.cols() - 150) / 2;
                     int y = (mRgba.rows() - 350) / 2;
                     Template = new Rect(x, y, (150), (350));
+                    pager.setCurrentItem(4);
                 } catch (Exception e) {
 
                 }
@@ -222,12 +232,9 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
         });
 
 
-
-
-
         inicializarTessTwo();
 /// Iniciar el viewpager de vistas
-        inicializarViewPagerVistas();
+
 
 
      //   CapturaImagenFragment layoutVisor = ( CapturaImagenFragment)
@@ -256,15 +263,16 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
         this.pager = (ViewPager) this.findViewById(R.id.pagerVisores);
 
         // Set a custom animation
-        this.pager.setPageTransformer(true, new VisorZOPageTransformer());
 
+        this.pager.setPageTransformer(true, new VisorZOPageTransformer());
+       // this.pager.setCurrentItem(3);
         // Create an adapter with the fragments we show on the ViewPager
         VisorFragmentAdapter adapter = new VisorFragmentAdapter(getSupportFragmentManager());
-        adapter.addFragment(VisorFragment.newInstance(0, R.drawable.visor_et_barras));
-        adapter.addFragment(VisorFragment.newInstance( 1, R.drawable.visor_et_small));
-        adapter.addFragment(VisorFragment.newInstance( 2, R.drawable.visor_et_cuadrada));
-        adapter.addFragment(VisorFragment.newInstance(3, R.drawable.visor_et_full));
-        adapter.addFragment(VisorFragment.newInstance(4, R.drawable.visor_et_ropa));
+        adapter.addFragment(VisorFragment.newInstance(0, 10,300,700,400));
+        adapter.addFragment(VisorFragment.newInstance(1, 10,300,700,450));
+        adapter.addFragment(VisorFragment.newInstance(2, 10,300,700,600));
+        adapter.addFragment(VisorFragment.newInstance(3, 10,300,700,500));
+        adapter.addFragment(VisorFragment.newInstance(4, 10,300,700,450));
 
         this.pager.setAdapter(adapter);
 
