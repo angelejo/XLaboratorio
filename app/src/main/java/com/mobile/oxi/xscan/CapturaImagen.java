@@ -1,13 +1,10 @@
 package com.mobile.oxi.xscan;
 
-import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -17,8 +14,9 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.text.Layout;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -26,7 +24,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,7 +88,8 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
     Mat hierarchy;
     Mat hierarchy2;
 
-    boolean ModoFurtivo=false;
+    boolean frameActual=false;
+    boolean primeraCarga=true;
     Mat Sample;
 
     List<MatOfPoint> contours;
@@ -101,6 +99,7 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
 
     List<Double> factorn1 = new ArrayList<Double>();
     List<Rect> RectsROIs;
+    List<Rect> preRectsROIs;
     List<Bitmap> imagenesCandidatas;
     List<Mat> textBlockHistogram;
     TextView tv_ocrphotosCandidatas;
@@ -109,11 +108,9 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
     ImageView iv_template1;
     ImageView iv_template2;
     ImageView iv_template3;
-    ImageView iv_imagenProcesada;
     ImageView iv_photosCandidatas;
 
-    protected double promedioResponses=0;
-
+    public LinearLayout layoutVisor;
 
 
     protected BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
@@ -122,10 +119,8 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
             switch (status) {
                 case LoaderCallbackInterface.SUCCESS: {
 
-                    Toast.makeText(CapturaImagen.this, "OpenCV cargado correctamente.", Toast.LENGTH_SHORT).show();
-                    //     cameraPreview.fijarFoco(new Point(0,0), new Point(400,400), Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
                     cameraPreview.enableView();
-                    inicializarTextBlockValidator();
+                //    inicializarTextBlockValidator();
                 }
                 default: {
                     super.onManagerConnected(status);
@@ -143,7 +138,7 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
         mHandler = new Handler();
 
 
-        imagenesCandidatas = new ArrayList<Bitmap>();
+        preRectsROIs = new ArrayList<Rect>();
         setContentView(R.layout.activity_captura_imagen);
 
         Toolbar toolbar;
@@ -165,26 +160,27 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
             }
         });
 
+
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        int height = displaymetrics.heightPixels;
+        int width = displaymetrics.widthPixels;
+        cameraPreview.setMaxFrameSize(width,height);
+
         tv_ocrphotosCandidatas = (TextView) findViewById(R.id.tv_ocrphotosCandidatas);
         iv_photo = (FloatingActionButton) findViewById(R.id.iv_photo);
 
-
-        inicializarViewPagerVistas();
 
         iv_template1 = (ImageView) findViewById(R.id.iv_template1);
         iv_template2 = (ImageView) findViewById(R.id.iv_template2);
         iv_template3 = (ImageView) findViewById(R.id.iv_template3);
 
-
-
         iv_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    Toast.makeText(CapturaImagen.this, "Capturando imagen", Toast.LENGTH_SHORT).show();
+
                     extraerImagenesROI();
-
-
                 } catch (Exception e) {
                     Toast.makeText(CapturaImagen.this, "Error "+e.getMessage() + ", "+e.getStackTrace().toString(), Toast.LENGTH_SHORT).show();
                 }
@@ -194,11 +190,10 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
             @Override
             public void onClick(View v) {
                 try {
-                    int x = (mRgba.cols()- 150)/2;
-                    int y = (mRgba.rows()-350)/2;
-                    Template = new Rect(x,y,(150),(350));
-                    pager.setCurrentItem(3);
-
+                    int y = (int) (mRgba.rows() - (mRgba.rows() * 0.95)) / 2;
+                    int x = (int) (mRgba.cols() - (mRgba.cols() * 0.95) * 0.33) / 2;
+                    pager.setCurrentItem(1);
+                    Template = new Rect(x, y, (int) ((mRgba.rows() * 0.95) * 0.33), (int) (mRgba.rows() * 0.95));
                 } catch (Exception e) {
 
                 }
@@ -208,10 +203,10 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
             @Override
             public void onClick(View v) {
                 try {
-                    int x = (mRgba.cols() - 150) / 2;
-                    int y = (mRgba.rows() - 350) / 2;
-                    Template = new Rect(x, y, (150), (350));
-                    pager.setCurrentItem(2);
+                    int y = (int) (mRgba.rows() - (mRgba.rows() * 0.95)) / 2;
+                    int x = (int) (mRgba.cols() - (mRgba.cols() * 0.62)) / 2;
+                    pager.setCurrentItem(3);
+                    Template = new Rect(x, y, ((int) (mRgba.cols() * 0.62)), (int) (mRgba.rows() * 0.95));
                 } catch (Exception e) {
 
                 }
@@ -221,10 +216,10 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
             @Override
             public void onClick(View v) {
                 try {
-                    int x = (mRgba.cols() - 150) / 2;
-                    int y = (mRgba.rows() - 350) / 2;
-                    Template = new Rect(x, y, (150), (350));
-                    pager.setCurrentItem(4);
+                    int y = (int) (mRgba.rows() - (mRgba.rows() * 0.95)) / 2;
+                    int x = (int) (mRgba.cols() - (mRgba.cols() * 0.42)) / 2;
+                    pager.setCurrentItem(2);
+                    Template = new Rect(x, y, ((int) (mRgba.cols() * 0.42)), (int) (mRgba.rows() * 0.95));
                 } catch (Exception e) {
 
                 }
@@ -233,6 +228,58 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
 
 
         inicializarTessTwo();
+
+        inicializarViewPagerVistas();
+
+        layoutVisor = (LinearLayout) findViewById(R.id.content2);
+
+        DrawView fondo = new DrawView(this);
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch(position){
+                    case 0:
+                        int y = (int) (mRgba.rows() - (mRgba.rows() * 0.95)) / 2;
+                        int x = (int) (mRgba.cols() - (mRgba.cols() * 0.95) * 0.33) / 2;
+
+                        Template = new Rect(x, y, (int) ((mRgba.rows() * 0.95) * 0.33), (int) (mRgba.rows() * 0.95));
+                        Log.v(TAG, "Template 1 posicion "+position);
+                        break;
+                    case 1:
+                        y = (int) (mRgba.rows() - (mRgba.rows() * 0.95)) / 2;
+                        x = (int) (mRgba.cols() - (mRgba.cols() * 0.95) * 0.33) / 2;
+
+                        Template = new Rect(x, y, (int) ((mRgba.rows() * 0.95) * 0.33), (int) (mRgba.rows() * 0.95));
+                        Log.v(TAG, "Template 1 posicion "+position);
+                        break;
+                    case 2:
+                        y = (int) (mRgba.rows() - (mRgba.rows() * 0.95)) / 2;
+                        x = (int) (mRgba.cols() - (mRgba.cols() * 0.42)) / 2;
+
+                        Template = new Rect(x, y, ((int) (mRgba.cols() * 0.42)), (int) (mRgba.rows() * 0.95));
+                        Log.v(TAG, "Template 2 posicion "+position);
+                        break;
+                    case 3:
+                        y = (int) (mRgba.rows() - (mRgba.rows() * 0.95)) / 2;
+                        x = (int) (mRgba.cols() - (mRgba.cols() * 0.62)) / 2;
+
+                        Template = new Rect(x, y, ((int) (mRgba.cols() * 0.62)), (int) (mRgba.rows() * 0.95));
+                        Log.v(TAG, "Template 3 posicion "+position);
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        RectsROIs = new ArrayList<Rect>();
     }
 
     protected void inicializarAzureMobileServices()  {
@@ -248,16 +295,33 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
         // Set a custom animation
 
         this.pager.setPageTransformer(true, new VisorZOPageTransformer());
-       // this.pager.setCurrentItem(3);
+        // this.pager.setCurrentItem(3);
         // Create an adapter with the fragments we show on the ViewPager
         VisorFragmentAdapter adapter = new VisorFragmentAdapter(getSupportFragmentManager());
-        adapter.addFragment(VisorFragment.newInstance(0, 10,300,700,400));
-        adapter.addFragment(VisorFragment.newInstance(1, 10,300,700,450));
-        adapter.addFragment(VisorFragment.newInstance(2, 10,300,700,600));
-        adapter.addFragment(VisorFragment.newInstance(3, 10,300,700,500));
-        adapter.addFragment(VisorFragment.newInstance(4, 10,300,700,450));
+
+        Display display = getWindowManager().getDefaultDisplay();
+        android.graphics.Point size = new android.graphics.Point();
+        display.getSize(size);
+        double width = size.x;
+        double height = size.y;
+        int x =0;
+        int y=0;
+        y=(int)((height-(height*0.42))/2);
+        x=(int)(width-(width*0.80))/2;
+        adapter.addFragment(VisorFragment.newInstance(0,x+25, y+236,(int)(width*0.88),(int)(height*0.56)));
+        y=(int)((height-(height*0.42))/2);
+        x=(int)(width-(width*0.80))/2;
+        adapter.addFragment(VisorFragment.newInstance(1,x+25, y+236,(int)(width*0.88),(int)(height*0.56)));
+        y=(int)((height-(height*0.42))/2);
+        x=(int)(width-(width*0.80))/2;
+        adapter.addFragment(VisorFragment.newInstance(2,x+25, y+170,(int)(width*0.88),(int)(height*0.62)));
+
+        y=(int)((height-(height*0.42))/2);
+        x=(int)(width-(width*0.80))/2;
+        adapter.addFragment(VisorFragment.newInstance(3,x+25, y+120,(int)(width*0.88),(int)(height*0.66)));
 
         this.pager.setAdapter(adapter);
+
 
     }
 
@@ -407,7 +471,7 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
             bitmapOCR = Bitmap.createBitmap(imagenOCR.cols(), imagenOCR.rows(), Bitmap.Config.ARGB_8888);
             Utils.matToBitmap(imagenOCR, bitmapOCR);
             bitmapOCR = Bitmap.createBitmap(bitmapOCR, 0, 0, bitmapOCR.getWidth(), bitmapOCR.getHeight(), mtx, true);
-            iv_photosCandidatas.setImageBitmap(bitmapOCR);
+        //    iv_photosCandidatas.setImageBitmap(bitmapOCR);
             ResultadoOCR _rOCR = new ResultadoOCR();
             //   _rOCR.imagenOCR=bitmapOCR;
 
@@ -502,7 +566,7 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         // TODO Auto-generated method stub
 
-        if (!ModoFurtivo) {
+        frameActual=false;
             if(Template.width>100)
             {
                 mRgbaOriginal = inputFrame.rgba().submat(Template);
@@ -510,83 +574,83 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
             else {
                 mRgbaOriginal = inputFrame.rgba();
             }
-        }
-        else {
-            mRgbaOriginal = Sample;
-        }
-        mRgbaHSV = new Mat();
-        mRgbaTemp = new Mat();
+
+        RectsROIs.clear();
         if (!mRgbaOriginal.empty()) {
+            mRgbaHSV = new Mat();
+
+
             idetiqueta = UUID.randomUUID().toString();
 
             contours = new ArrayList<MatOfPoint>();
-            contours2 = new ArrayList<MatOfPoint>();
-            hierarchy = new Mat();
-            hierarchy2 = new Mat();
 
-            //Imgproc.morphologyEx(mRgbaOriginal, mRgbaOriginal, Imgproc.MORPH_OPEN, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 55)), new Point(-1, -1), 1);
-            Imgproc.cvtColor(mRgbaOriginal, mRgbaTemp, Imgproc.COLOR_RGB2GRAY, CvType.CV_8UC1);
+            hierarchy = new Mat();
+
+
             Imgproc.cvtColor(mRgbaOriginal, mRgbaHSV, Imgproc.COLOR_RGB2HSV, CvType.CV_8UC3);
             //     Core.inRange(mRgbaHSV, new Scalar(0, 0, 245, 0), new Scalar(180, 255, 255, 0), mRgbaTemp);
-            RectsROIs = new ArrayList<Rect>();
+
             factorn1 = new ArrayList<Double>();
             Rect rt = new Rect();
 
-            Core.inRange(mRgbaHSV, new Scalar(0, 0, 0), new Scalar(180, 255, 55), mRgbaOriginal);
-            Imgproc.dilate(mRgbaOriginal, mRgbaOriginal, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(2, 59)), new Point(-1, -1), 3);
+            Core.inRange(mRgbaHSV, new Scalar(0, 0, 0), new Scalar(180, 255, 75), mRgbaOriginal);
+       //     Imgproc.erode(mRgbaOriginal, mRgbaOriginal, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(2, 2)), new Point(-1, -1), 1);
+            Imgproc.dilate(mRgbaOriginal, mRgbaOriginal, Imgproc.getStructuringElement(Imgproc.MORPH_RECT, new Size(3, 87)), new Point(-1, -1), 3);
+        //    Imgproc.threshold(mRgbaOriginal, mRgbaOriginal, 70, 255, Imgproc.THRESH_BINARY);
             String resultadoProbabilidades = "";
 
             Imgproc.findContours(mRgbaOriginal, contours, hierarchy, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_NONE, new Point(0, 0));
+             mRgba = inputFrame.rgba();
 
 
-            // Imgproc.threshold(mRgbaOriginal, mRgbaOriginal, 80, 255, Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C);
-            //   Imgproc.findContours(mRgbaOriginal, contours2, hierarchy2, Imgproc.RETR_TREE, Imgproc.CHAIN_APPROX_NONE, new Point(0, 0));
-            if (!ModoFurtivo) {
-                mRgba = inputFrame.rgba();
-            }
-            else
-            {
-                mRgba=Sample;
-            }
-            contours.addAll(contours2);
-            mRgbaOriginal = mRgba.clone();
+
             Mat m = new Mat();
             for (int i = 0; i < contours.size(); i++) {
                 rt = Imgproc.boundingRect(contours.get(i));
-                mRgba = mRgbaTemp.submat(rt);
+       /*         mRgba = mRgbaTemp.submat(rt);
                 Core.extractChannel(mRgba, m, 0);
                 double n = Core.countNonZero(m);
                 double contourarea = Imgproc.contourArea(contours.get(i));
 
                 double fn1=n/contourarea;
-                if (rt.width > 23 && rt.height > 83&&rt.height>rt.width &&fn1>(1)&&fn1<(2) )//(approxCurve_temp.total() >= 3)
+                */
+                if (rt.width > 13 && rt.height > 53&&rt.height>rt.width)// &&fn1>(1))//&&fn1<(2) )//(approxCurve_temp.total() >= 3)
                 {
-                    java.util.List<Mat> matList = new LinkedList<Mat>();
-                    RectsROIs.add(rt);
-                    factorn1.add(fn1);
-                    if(Template.width>100)
-                    {
-                        Imgproc.rectangle(mRgbaOriginal, new Point(rt.x+Template.x, rt.y+Template.y), new Point(rt.x + rt.width+Template.x, rt.y + rt.height+Template.y), new Scalar(1, 1, 1), 2);
-                    }
-                    else {
-                        Imgproc.rectangle(mRgbaOriginal, new Point(rt.x, rt.y), new Point(rt.x + rt.width, rt.y + rt.height), new Scalar(1, 1,1), 2);
-                    }
 
+                    RectsROIs.add(rt);
+                    factorn1.add(0.0);
+                    if (Template.width > 100) {
+                        Imgproc.rectangle(mRgba, new Point(rt.x + Template.x, rt.y + Template.y), new Point(rt.x + rt.width + Template.x, rt.y + rt.height + Template.y), new Scalar(255, 255, 1), 2);
+                    } else {
+                        Imgproc.rectangle(mRgba, new Point(rt.x, rt.y), new Point(rt.x + rt.width, rt.y + rt.height), new Scalar(255, 255, 111), 2);
+                    }
                 }
             }
 
+         /*
+            if(RectsROIs!=null) {
+
+                for (int i = 0; i < RectsROIs.size(); i++) {
+                    Rect _rt = RectsROIs.get(i);
+                    if (Template.width > 100) {
+                        Imgproc.rectangle(mRgbaOriginal, new Point(_rt.x + Template.x, _rt.y + Template.y), new Point(_rt.x + _rt.width + Template.x, _rt.y + _rt.height + Template.y), new Scalar(111, 255, 255), 2);
+                    } else {
+                        Imgproc.rectangle(mRgbaOriginal, new Point(_rt.x, _rt.y), new Point(_rt.x + _rt.width, _rt.y + _rt.height), new Scalar(111, 255, 255), 2);
+                    }
+                }
+            }
+        */
             m.release();
             contours.clear();
             hierarchy.release();
-            contours2.clear();
-            hierarchy2.release();
+
         }
 
-        mRgba = inputFrame.rgba();
-        mRgbaTemp.release();
+        mRgbaOriginal.release();
+
         mRgbaHSV.release();
-        Imgproc.rectangle(mRgbaOriginal, new Point(Template.x, Template.y), new Point(Template.x + Template.width, Template.y + Template.height), new Scalar(255, 255, 255), 5);
-        return mRgbaOriginal;
+      //  Imgproc.rectangle(mRgbaOriginal, new Point(Template.x, Template.y), new Point(Template.x + Template.width, Template.y + Template.height), new Scalar(255, 255, 255), 1);
+        return mRgba;
     }
 
 
@@ -594,6 +658,10 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
     public void onCameraViewStarted(int width, int height) {
         // TODO Auto-generated method stub
         mRgba = new Mat(height, width, CvType.CV_8UC4);
+        int y = (int) (mRgba.rows() - (mRgba.rows() * 0.95)) / 2;
+        int x = (int) (mRgba.cols() - (mRgba.cols() * 0.95) * 0.33) / 2;
+        pager.setCurrentItem(1);
+        Template = new Rect(x, y, (int) ((mRgba.rows() * 0.95) * 0.33), (int) (mRgba.rows() * 0.95));
     }
 
     @Override
