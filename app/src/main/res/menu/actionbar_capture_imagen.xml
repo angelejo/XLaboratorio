@@ -21,7 +21,7 @@
 
         />
 
-
+<!--
     <item android:id="@+id/action_search"
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/action_search"
@@ -29,6 +29,8 @@
         xScam:actionViewClass="android.support.v7.widget.SearchView"
         android:orderInCategory="2"
          />
+
+         -->
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="3"
