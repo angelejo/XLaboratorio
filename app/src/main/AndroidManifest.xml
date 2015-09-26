@@ -27,34 +27,45 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" /> <!-- To retrieve the account name (email) as part of sign-in: -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:logo="@android:drawable/btn_star"
-
-        >
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name">
+        android:logo="@mipmap/ic_launcher"
+        android:theme="@style/AppTheme" >
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".CapturaImagen"
-            android:label="@string/app_name"
-            android:parentActivityName=".MainActivity"
-            >
+            android:logo="@mipmap/ic_launcher"
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
+        <activity
+            android:name=".ProductosListActivity"
+            android:label="@string/title_activity_list_productos"
+            android:parentActivityName=".CapturaImagen" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mobile.oxi.xscan.CapturaImagen" />
+        </activity>
+        <activity
+            android:name=".ProductosDetail"
+            android:label="@string/title_activity_productos_detail"
+            android:parentActivityName=".ProductosListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.mobile.oxi.xscan.ProductosListActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import utils.DrawView;
+
 
 public class VisorFragment extends Fragment {
 

@@ -1,5 +1,4 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,14 +15,13 @@
         android:longClickable="true" />
 
     <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".CapturaImagenFragment"
-
         >
 
         <android.support.v7.widget.Toolbar
@@ -32,79 +30,75 @@
             android:layout_height="wrap_content"
             android:background="?colorPrimary"
             android:elevation="4dp"
-
-
             android:theme="@style/Toolbar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            />
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
         <android.support.v4.view.ViewPager
-        android:id="@+id/pagerVisores"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-             />
+            android:id="@+id/pagerVisores"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/iv_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:onClick="ejeProductosActivity"
-        android:src="@android:drawable/ic_menu_camera"
-        app:backgroundTint="#BF5A30"
-        app:borderWidth="0dp"
-        app:elevation="6dp"
-        app:fabSize="normal"
-        app:layout_anchor="@id/coordinatorLayout"
-        app:layout_anchorGravity="bottom|center_horizontal" />
-
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/iv_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:onClick="ejeProductosActivity"
+            android:src="@android:drawable/ic_menu_camera"
+            app:backgroundTint="#BF5A30"
+            app:borderWidth="0dp"
+            app:elevation="6dp"
+            app:fabSize="normal"
+            app:layout_anchor="@id/coordinatorLayout"
+            app:layout_anchorGravity="bottom|center_horizontal" />
 
 
     </android.support.design.widget.CoordinatorLayout>
-
 
 
     <LinearLayout
         android:id="@+id/RelativeLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:alpha="0.9"
-        android:background="@android:color/transparent"
-        android:padding="10dp"
-        android:orientation="horizontal"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
+        android:layout_alignParentStart="true"
+        android:alpha="0.9"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
         <ImageView
             android:id="@+id/iv_template1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_manage"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="right"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="50dp" />
+            android:layout_marginRight="50dp"
+            android:src="@android:drawable/ic_menu_manage" />
+
         <ImageView
             android:id="@+id/iv_template2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_manage"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="right"
-            android:layout_marginRight="50dp" />
+            android:layout_marginRight="50dp"
+            android:src="@android:drawable/ic_menu_manage" />
+
         <ImageView
             android:id="@+id/iv_template3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@android:drawable/ic_menu_manage"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="right"
-            android:layout_marginRight="50dp" />
-
+            android:layout_marginRight="50dp"
+            android:src="@android:drawable/ic_menu_manage" />
 
 
     </LinearLayout>
@@ -138,7 +132,7 @@
             android:background="@android:color/transparent"
             android:padding="10dp">
 
-         <ImageView
+            <ImageView
                 android:id="@+id/iv_imagenProcesada"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -154,8 +148,7 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/layoutVisor"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
         </RelativeLayout>
 
@@ -169,10 +162,10 @@
                  android:layout_alignParentTop="true"
                  android:src="@andrdrawable/ic_dialog_dialer" />
      -->
-             <TextView
-                 android:id="@+id/tv_ocrphotosCandidatas"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"></TextView>
+        <TextView
+            android:id="@+id/tv_ocrphotosCandidatas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></TextView>
 
     </RelativeLayout>
 

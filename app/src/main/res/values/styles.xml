@@ -9,7 +9,7 @@
 
     </style>
 
-    <style name="Toolbar" parent="Theme.AppCompat">
+    <style name="Toolbar" parent="Theme.AppCompat" >
         <item name="colorPrimary">@color/col_light_green</item>
         <item name="android:textColorPrimary">@color/col_primary</item>
     </style>

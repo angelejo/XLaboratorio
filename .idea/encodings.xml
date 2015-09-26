@@ -2,6 +2,9 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/mobile/oxi/xscan/MainActivity.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/mobile/oxi/xscan/Productos.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/mobile/oxi/xscan/ProductosAdapter.java" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/mobile/oxi/xscan/ProductosData.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/mobile/oxi/xscan/VisorFragment.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/mobile/oxi/xscan/VisorFragmentAdapter.java" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/mobile/oxi/xscan/VisorZOPageTransformer.java" charset="windows-1252" />

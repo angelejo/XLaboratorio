@@ -30,7 +30,8 @@
             android:id="@+id/tipVisor"
             android:layout_gravity="center_horizontal"
             android:elevation="6dp"
-            android:contentDescription="Visor"/>
+            android:contentDescription="Visor"
+            />
 
         <TextView
             android:id="@+id/tvIndex"

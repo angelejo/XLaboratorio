@@ -3,5 +3,8 @@
     <string name="hello_world">X</string>
     <string name="action_settings">Configuracion</string>
     <string name="title_activity_main">MainActivity</string>
-    <string name="action_search">Prodcuto</string>
+    <string name="action_search">Buscar Producto</string>
+    <string name="action_lista_Productos">Lista de Productos</string>
+    <string name="title_activity_list_productos">ListProductosActivity</string>
+    <string name="title_activity_productos_detail">ProductosDetail</string>
 </resources>

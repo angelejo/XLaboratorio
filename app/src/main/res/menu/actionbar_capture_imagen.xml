@@ -2,14 +2,36 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xScam="http://schemas.android.com/apk/res-auto" >
     <!-- Search, should appear as action button -->
+
+
+    <TextView
+        style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        />
+
+
+    <item  android:id="@+id/lista_productos"
+        android:icon="@drawable/ic_bolsa_lista"
+        android:title="@string/action_lista_Productos"
+        android:orderInCategory="1"
+        xScam:showAsAction="ifRoom|never|withText"
+
+        />
+
+
     <item android:id="@+id/action_search"
         android:icon="@android:drawable/ic_menu_search"
         android:title="@string/action_search"
         xScam:showAsAction="ifRoom|collapseActionView"
         xScam:actionViewClass="android.support.v7.widget.SearchView"
+        android:orderInCategory="2"
          />
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
+        android:orderInCategory="3"
          />
 
 </menu>

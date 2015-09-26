@@ -3,4 +3,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="action_bar_altura">30dp</dimen>
+    <dimen name="card_elevation">1dp</dimen>
+    <dimen name="card_corner_radius">0dp</dimen>
+    <dimen name="card_txt_prodName">23sp</dimen>
+    <dimen name="card_txt_prodPrecio">20sp</dimen>
+    <dimen name="card_txt_prodPeso">15sp</dimen>
+    <dimen name="card_txt_prodCant">15sp</dimen>
+    <dimen name="card_txt_prodBarCode">12sp</dimen>
 </resources>

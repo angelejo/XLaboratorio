@@ -1,5 +1,6 @@
 package com.mobile.oxi.xscan;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
@@ -57,6 +58,9 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
+
+import utils.DrawView;
+
 
 public class CapturaImagen extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
 
@@ -143,6 +147,9 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
 
         Toolbar toolbar;
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+       // toolbar.setNavigationIcon(R.drawable.ic_bolsa_lista);
+       // toolbar.setNavigationOnClickListener();
+
         setSupportActionBar(toolbar);
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -308,17 +315,17 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
         int y=0;
         y=(int)((height-(height*0.42))/2);
         x=(int)(width-(width*0.80))/2;
-        adapter.addFragment(VisorFragment.newInstance(0,x+25, y+236,(int)(width*0.88),(int)(height*0.56)));
+        adapter.addFragment(VisorFragment.newInstance(0, x + 25, y + 236, (int) (width * 0.88), (int) (height * 0.56)));
         y=(int)((height-(height*0.42))/2);
         x=(int)(width-(width*0.80))/2;
-        adapter.addFragment(VisorFragment.newInstance(1,x+25, y+236,(int)(width*0.88),(int)(height*0.56)));
+        adapter.addFragment(VisorFragment.newInstance(1, x + 25, y + 236, (int) (width * 0.88), (int) (height * 0.56)));
         y=(int)((height-(height*0.42))/2);
         x=(int)(width-(width*0.80))/2;
-        adapter.addFragment(VisorFragment.newInstance(2,x+25, y+170,(int)(width*0.88),(int)(height*0.62)));
+        adapter.addFragment(VisorFragment.newInstance(2, x + 25, y + 170, (int) (width * 0.88), (int) (height * 0.62)));
 
         y=(int)((height-(height*0.42))/2);
         x=(int)(width-(width*0.80))/2;
-        adapter.addFragment(VisorFragment.newInstance(3,x+25, y+120,(int)(width*0.88),(int)(height*0.66)));
+        adapter.addFragment(VisorFragment.newInstance(3, x + 25, y + 120, (int) (width * 0.88), (int) (height * 0.66)));
 
         this.pager.setAdapter(adapter);
 
@@ -548,17 +555,23 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+         switch (item.getItemId()) {
+            case R.id.lista_productos:
+                Log.i("ActionBar", "Lista_Productos");
+                invocarActividad(ProductosListActivity.class);
+                return true;
+            case R.id.action_search:
+                Log.i("ActionBar", "Buscar!");;
+                return true;
+            case R.id.action_settings:
+                Log.i("ActionBar", "Settings!");;
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
+
     }
 
 
@@ -672,6 +685,9 @@ public class CapturaImagen extends AppCompatActivity implements CameraBridgeView
 
     }
 
-
+    private void invocarActividad(Class ClaseActividad) {
+        Intent intent = new Intent(this, ClaseActividad);
+        startActivity(intent);
+    }
 
 }
